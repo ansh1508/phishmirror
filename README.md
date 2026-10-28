@@ -1,13 +1,12 @@
-# PhishMirror — prototype
+# PhishMirror
 
-AI phishing **defense + awareness training** for small businesses, as described in
-the concept paper. This is the hackathon prototype: a working **defender**, a safe
-**training simulator**, a self-improving **loop**, and an **MSP console** that manages
-several client companies at once — all on synthetic demo data.
+AI phishing **defense + awareness training** for small businesses: a **defender**, a
+safe **training simulator**, a self-improving **loop**, and an **MSP console** that
+manages several client companies at once. Runs on synthetic demo data.
 
 ## MSP multi-tenant console
 
-The dashboard is built as the paper's **MSP console**: one screen for an IT provider that
+The dashboard is an **MSP console**: one screen for an IT provider that
 protects several small-business clients. The **portfolio** shows every client with its
 sector, dangerous-email count, average human-risk, and a status band. Selecting a client
 drills into that client's own inbox, employee risk scores, training simulations, and
@@ -15,7 +14,7 @@ self-improving loop. Each client has its own domain, people, trusted senders and
 seed, so detection and metrics are fully isolated per tenant.
 
 Demo clients: **Acme Corp** (logistics), **BrightSmile Dental** (healthcare), and
-**LedgerLine Accounting** — the beachhead segments named in the paper.
+**LedgerLine Accounting** — payments-heavy small-business segments.
 
 ## What it does
 
@@ -28,7 +27,7 @@ Demo clients: **Acme Corp** (logistics), **BrightSmile Dental** (healthcare), an
   reacted to past simulations (reporting lowers it, clicking raises it).
 - **Training simulator** — generates a **safe, labelled** phishing-awareness test for a
   synthetic persona. Nothing is sent; links are inert `example.com` placeholders.
-- **Self-improving loop** — the closed loop from the paper. An attacker introduces a new
+- **Self-improving loop** — a closed attacker/defender loop. An attacker introduces a new
   phishing tactic each round; the misses feed back into a learning detector (logistic
   regression over email text), which retrains. Detection rate and false-positive rate are
   measured each round on a **fixed held-out test set** against a **frozen baseline** that
@@ -43,7 +42,7 @@ Demo clients: **Acme Corp** (logistics), **BrightSmile Dental** (healthcare), an
 - **Compliance / insurance report** — a per-client, printable report (`/report?client=<id>`)
   with emails scanned and attacks caught, measured detection vs baseline and false-positive
   rate, staff training results, and a human-risk trend. Print to PDF or download the JSON.
-  The "turn security into audit evidence" deliverable from the paper.
+  Turns security into audit evidence.
 - **MSP dashboard** — client portfolio, the loop chart, inbox with per-email verdicts,
   employee risk bars, a paste-an-email analyzer, a simulation generator, and the report.
 
@@ -70,20 +69,21 @@ python -m pytest -q
 
 ## Detection mode
 
-Detection runs on **heuristics** out of the box — no API key needed, so the demo
-works offline. If `ANTHROPIC_API_KEY` is set, the explanation for each flagged email
-is rewritten by Claude (`app/llm.py`); any failure falls back to the heuristic text.
-Set the model with `PHISHMIRROR_MODEL` (default `claude-opus-5-5`).
+Detection runs on **heuristics** out of the box — no API key needed, so it works
+offline. If `ANTHROPIC_API_KEY` is set, Claude also judges each email directly and its
+verdict is combined with the heuristic detector as an ensemble (`app/llm.py`); any
+failure falls back to heuristics. Set the model with `PHISHMIRROR_MODEL` (default
+`claude-opus-5-5`).
 
-## Scope and honesty (matches the concept paper)
+## Scope and honesty
 
 - **All data is synthetic.** The demo company, employees, and emails are fictional;
   malicious samples use lookalikes of a made-up domain.
 - **The simulator only produces training content** for synthetic personas, always
-  labelled, never deployable against real people. This is the safe, consented
-  red-team described in the paper, not an attack tool.
-- Heuristic detection (the live inbox) is a stand-in for the paper's "fine-tuned
-  classifier"; real detection and false-positive rates are to be measured in pilots.
+  labelled, never deployable against real people. It is a safe, consented red-team,
+  not an attack tool.
+- Heuristic detection (the live inbox) is a stand-in for a production classifier; real
+  detection and false-positive rates would be measured in pilots.
 - The self-improving loop trains a real ML classifier on synthetic tactic families. Its
   curve measures recall on **held-out instances** of each tactic (fresh names, amounts,
   links, and different wording than training) — honest generalization, not memorization,
@@ -103,5 +103,5 @@ app/
   report.py      per-client compliance / insurance report builder
   main.py        FastAPI API + serves the dashboard and report page
   static/        dashboard (index.html) + printable report (report.html)
-tests/           detector + scoring + simulator-safety tests
+tests/           detector, scoring, loop, simulator-safety, client, llm, report, route tests
 ```
