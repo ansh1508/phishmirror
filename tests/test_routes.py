@@ -18,7 +18,7 @@ def test_landing_is_the_front_page():
 
 def test_console_and_report_pages_serve():
     assert client.get("/console").status_code == 200
-    assert "MSP CONSOLE" in client.get("/console").text
+    assert "PhishMirror MSP Console" in client.get("/console").text   # the <title>
     assert client.get("/report").status_code == 200
 
 

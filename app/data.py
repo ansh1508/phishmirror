@@ -31,6 +31,7 @@ ACME = {
     ],
     "projects": ["Project Atlas", "Q3 Cloud Migration"],
     "loop_seed": 7,
+    "scanned": 47,   # total mail scanned this period; the inbox below is the notable sample
     "employees": [
         {"name": "John Carter", "email": "john.carter@acme-corp.com",
          "role": "CEO", "manager": None},
@@ -95,6 +96,7 @@ BRIGHTSMILE = {
     ],
     "projects": ["Patient Portal Rollout", "New Clinic Fitout"],
     "loop_seed": 11,
+    "scanned": 53,
     "employees": [
         {"name": "Dr Emma Reyes", "email": "emma.reyes@brightsmile-dental.com",
          "role": "Lead Dentist", "manager": None},
@@ -161,6 +163,7 @@ LEDGERLINE = {
     ],
     "projects": ["Tax Season 2026", "Client Onboarding"],
     "loop_seed": 23,
+    "scanned": 49,
     "employees": [
         {"name": "Grace Kim", "email": "grace.kim@ledgerline-cpa.com",
          "role": "Managing Partner", "manager": None},

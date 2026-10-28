@@ -43,7 +43,7 @@ def build(client, loop_result, period):
                    "domain": client["domain"], "employees": len(client["employees"])},
         "period": period,
         "email_protection": {
-            "scanned": len(analyses),
+            "scanned": client.get("scanned", len(analyses)),
             "dangerous": sum(1 for _, a in analyses if a["verdict"] == "dangerous"),
             "suspicious": sum(1 for _, a in analyses if a["verdict"] == "suspicious"),
             "attacks_caught": attacks,

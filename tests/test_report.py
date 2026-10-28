@@ -12,7 +12,7 @@ def _report(cid):
 def test_report_has_real_protection_and_detection_numbers():
     r = _report("brightsmile")
     ep = r["email_protection"]
-    assert ep["scanned"] == len(data.get_client("brightsmile")["inbox"])
+    assert ep["scanned"] == data.get_client("brightsmile")["scanned"]   # ~50, not inbox size
     assert ep["dangerous"] >= 1
     # Attacks caught are the non-safe emails, each with a reason.
     assert len(ep["attacks_caught"]) == ep["dangerous"] + ep["suspicious"]

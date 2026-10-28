@@ -61,7 +61,7 @@ def _summary(client):
     return {
         "id": client["id"], "name": client["name"], "sector": client["sector"],
         "domain": client["domain"], "employees": len(client["employees"]),
-        "scanned": len(analyses), "dangerous": dangerous,
+        "scanned": client.get("scanned", len(analyses)), "dangerous": dangerous,
         "suspicious": sum(1 for a in analyses if a["verdict"] == "suspicious"),
         "avg_human_risk": avg_risk, "band": band,
     }
